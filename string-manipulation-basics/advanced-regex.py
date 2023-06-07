@@ -104,3 +104,141 @@ for tweet in sentiment_analysis:
     print("Negative comments found {}".format(negative_matches))
 
 
+# BACK REFERENCING
+
+# Numbered groups
+text = 'Python 3.0 was released on 12-03-2008'
+information = re.search(r'(\d{1,2})-(\d{2})-(\d{4})', text)
+print(information.group(3))
+print(information.group(0))
+#.group() only be used with .search() and .match()
+
+# Named groups
+text = 'Austine, 78701'
+cities = re.search(r'(?P<city>[A-Za-z]+).*?(?P<code>\d{4})', text)
+print(cities.group('city'))
+print(cities.group('code'))
+
+# Using capturing groups for backreferencing
+
+# Using numbered capturing groups to reference back
+sentence = 'I wish you a happy happy birthday!'
+print(re.findall(r'(\w+)\s\1', sentence))
+
+# Using numbered capturing groups to replace a string
+print(re.sub(r'(\w+)\s\1', r'\1', sentence))
+
+# Using named capturing groups to reference back
+sentence = 'Your new code number is 23434. Please, enter 23434 to open the door'
+print(re.findall(r'(?P<code>\d{5}).*?\s(?P=code)', sentence))
+
+
+# Using named capturing groups to replace a string
+sentence = "This app is not working! It's repeating the last word word"
+print(re.sub(r'(?P<txt>\w+)\s(?P=txt)', r'\g<txt>', sentence))
+
+
+# Parsing PDF Files
+"""
+You now need to work on another small project you have been delaying. Your company gave you some PDF files of signed contracts. The goal of the project is to create a database with the information you parse from them. Three of these columns should correspond to the day, month, and year when the contract was signed.
+The dates appear as Signed on 05/24/2016 (05 indicating the month, 24 the day). You decide to use capturing groups to extract this information. Also, you would like to retrieve that information so you can store it separately in different variables.
+
+You decide to do a proof of concept
+"""
+
+contract = 'Provider will invoice Client for Services performed within 30 days of performance.  Client will pay Provider as set forth in each Statement of Work within 30 days of receipt and acceptance of such invoice. It is understood that payments to Provider for services rendered shall be made in full as agreed, without any deductions for taxes of any kind whatsoever, in conformity with Provider’s status as an independent contractor. Signed on 03/25/2001.'
+
+# Write a regex that captures the month, day, and year in which the contract was signed. Scan contract for matches
+regex_dates = r"Signed\son\s(\d{2})/(\d{2})/(\d{4})"
+dates = re.search(regex_dates, contract)
+
+# Assign each captured group to the corresponding keys in the dictionary.
+
+signature = {
+	"day": dates.group(2),  #Remember that each capturing group is assigned a number according to its position in the regex. Only if you use .search() and .match(), you can use .group() to retrieve the groups.
+	"month": dates.group(1),
+	"year": dates.group(3)
+}
+
+# Complete the positional method to print out the captured groups. Use the values corresponding to each key in the dictionary.
+print("Our first contract is dated back to {data[year]}. Particularly, the day {data[day]} of the month {data[month]}.".format(data=signature))
+
+# Close the tag, please!
+"""
+In the meantime, you are working on one of your other projects. The company is going to develop a new product. It will help developers automatically check the code they are writing. You need to write a short script for checking that every HTML tag that is open has its proper closure.
+
+You have an example of a string containing HTML tags:
+
+<title>The Data Science Company</title>
+
+You learn that an opening HTML tag is always at the beginning of the string. It appears inside <>. A closing tag also appears inside <>, but it is preceded by /.
+
+You also remember that capturing groups can be referenced using numbers, e.g \4.
+"""
+
+html_tags = ['<body>Welcome to our course! It would be an awesome experience</body>',
+ '<article>To be a data scientist, you need to have knowledge in statistics and mathematics</article>',
+ '<nav>About me Links Contact me!']
+
+"""
+    Complete the regex in order to match closed HTML tags. Find if there is a match in each string of the list html_tags. Assign the result to match_tag.
+    If a match is found, print the first group captured and saved in match_tag.
+    If no match is found, complete the regex to match only the text inside the HTML tag. Assign it to notmatch_tag.
+    Print the first group captured by the regex and save it in notmatch_tag.
+"""
+
+for string in html_tags:
+    # Complete the regex and find if it matches a closed HTML tags
+    match_tag =  re.match(r"<(\w+)>.*?</\1>", string)
+ 
+    if match_tag:
+        # If it matches print the first group capture
+        print("Your tag {} is closed".format(match_tag.group(1))) 
+    else:
+        # If it doesn't match capture only the tag 
+        notmatch_tag = re.match(r"<(\w+)>", string)
+        # Print the first group capture
+        print("Close your {} tag!".format(notmatch_tag.group(1)))
+# Backreferences are very helpful when you need to reuse part of the regex match inside the regex. Knowing when and how to use them will simplify many of your tasks!
+
+
+# Reeepeated characters
+
+"""
+Back to your sentiment analysis! Your next task is to replace elongated words that appear in the tweets. We define an elongated word as a word that contains a repeating character twice or more times. e.g. "Awesoooome".
+
+Replacing those words is very important since a classifier will treat them as a different term from the source words lowering their frequency.
+
+To find them, you will use capturing groups and reference them back using numbers. E.g \4.
+
+If you want to find a match for Awesoooome. You first need to capture Awes. Then, match o and reference the same character back, and then, me.
+
+
+Complete the regular expression to match an elongated word as described.
+Search the elements in sentiment_analysis list to find out if they contain elongated words. Assign the result to match_elongated.
+Assign the captured group number zero to the variable elongated_word.
+Print the result contained in the variable elongated_word
+"""
+
+sentiment_analysis = ['@marykatherine_q i know! I heard it this morning and wondered the same thing. Moscooooooow is so behind the times',
+ 'Staying at a friends house...neighborrrrrrrs are so loud-having a party',
+ 'Just woke up an already have read some e-mail']
+
+regex_elongated = r'\w*(\w)\1\w*'
+
+for tweet in sentiment_analysis:
+	# Find if there is a match in each tweet 
+	match_elongated = re.search(regex_elongated, tweet)
+	
+	if match_elongated:
+		# Assign the captured group zero 
+		elongated_word = match_elongated.group(0)
+        
+		# Complete the format method to print the word
+		print("Elongated word found: {word}".format(word=elongated_word))
+	else:
+		print("No elongated word found") 
+
+
+
+

@@ -65,7 +65,7 @@ plan = {
     Print out the resulting message using the .format() method, passing the plan dictionary to replace the data placeholders.
 """
 # Complete the placeholders accessing elements of field and tool keys in the data dictionary
-my_message = "If you are interested in {data[field]}, you can take the course related to {data[tool]}"
+my_message = "If you are interested in {data[field]}, you can take the course related to {data[tool]}" #values in a list or dictionary are accessed without quatation marks
 
 # Use the plan dictionary to replace placeholders
 print(my_message.format(data=plan))
@@ -89,3 +89,65 @@ message = "Good morning. Today is {today:%B %d, %Y}. It's {today:%H:%M} ... time
 
 # Use the format method replacing the placeholder with get_date
 print(message.format(today=get_date))
+
+
+# Using String literals
+field1 = 'sexiest job'
+field2 = 'data is produced daily'
+field3 = 'Individuals'
+fact1 = 21
+fact2 = 2500000000000000000
+fact3 = 72.41415415151
+fact4 = 1.09
+
+# Complete the f-string to include the variable field1 with quotes and the variable fact1 as a digit.
+# Complete the f-string
+print(f"Data science is considered {field1!r} in the {fact1}st century")
+
+# Complete the f-string to include the variable fact2 using exponential notation, and the variable field2
+# Complete the f-string
+print(f"About {fact2:e} of {field2} in the world")
+
+# Complete the f-string to include field3, fact3 rounded to 2 decimals, and fact4 rounded to one decimal.
+# Complete the f-string
+print(f"{field3} create around {fact3:.2f}% of the data but only {fact4:.1f}% is analyzed")
+
+# making functions
+import datetime as dt
+number1 = 120
+number2 = 7
+string1 = 'httpswww.datacamp.com'
+list_links = ['www.news.com',
+ 'www.google.com',
+ 'www.yahoo.com',
+ 'www.bbc.com',
+ 'www.msn.com',
+ 'www.facebook.com',
+ 'www.news.google.com']
+# Inside the f-string, include number1,number2 and the result of dividing number1 by number2 rounded to one decimal.
+
+# Include both variables and the result of dividing them 
+print(f"{number1} tweets were downloaded in {number2} minutes indicating a speed of {number1/number2:.1f} tweets per min")
+
+# Inside the f-string, use .replace() to replace the substring https with an empty substring in string1.
+
+# Replace the substring https by an empty string
+print(f"{string1.replace('https', '')}")
+
+# Inside the f-string, get list_links length, multiply it by 100 and divide it by 120. Round the result to two decimals.
+
+# Divide the length of list by 120 rounded to two decimals
+print(f"Only {((len(list_links)*100)/120):.2f}% of the posts contain links")
+
+# accessing values with quatation in f strings unlike .format()
+east = {'date': dt.datetime(2007, 4, 20, 0, 0), 'price': 1232443}
+west = {'date': dt.datetime(2006, 5, 26, 0, 0), 'price': 1432673}
+
+# Inside the f-string, access the values of the keys price and date in east dictionary. Format the date to month-day-year.
+# Access values of date and price in east dictionary
+print(f"The price for a house in the east neighborhood was ${east['price']} in {east['date']:%m-%d-%Y}")
+
+# Inside the f-string, access the values of the keys price and date in west dictionary. Format the date to month-day-year.
+
+# Access values of date and price in west dictionary
+print(f"The price for a house in the west neighborhood was ${west['price']} in {west['date']:%m-%d-%Y}.")

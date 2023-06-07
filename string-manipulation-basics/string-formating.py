@@ -151,3 +151,74 @@ print(f"The price for a house in the east neighborhood was ${east['price']} in {
 
 # Access values of date and price in west dictionary
 print(f"The price for a house in the west neighborhood was ${west['price']} in {west['date']:%m-%d-%Y}.")
+
+
+# Using TEMPLATE METHOD
+
+# Import Template
+from string import Template
+# $ is used to specify varaible insert
+tool1 = 'Natural Language Toolkit'
+tool2 = 'TextBlob'
+tool3 = 'Gensim'
+description1 = 'suite of libraries and programs for symbolic and statistical natural language processing (NLP) for English written in the Python programming language. It was developed by Steven Bird and Edward Loper in the Department of Computer and Information Science at the University of Pennsylvania.'
+description2 ='Python library for processing textual data. It provides a simple API for diving into common natural language processing tasks such as part-of-speech tagging, noun phrase extraction, sentiment analysis, classification, translation, and more.'
+description3 = 'robust open-source vector space modeling and topic modeling toolkit implemented in Python. It uses NumPy, SciPy and optionally Cython for performance. Gensim is specifically designed to handle large text collections, using data streaming and efficient incremental algorithms, which differentiates it from most other scientific software packages that only target batch and in-memory processing.'
+
+# Complete the template using $tool and $description identifiers.
+
+# Create a template
+wikipedia = Template("$tool is a $description")
+
+# Substitute identifiers with the correct tool and description variables in the template and print out the results.
+
+# Substitute variables in template
+print(wikipedia.substitute(tool=tool1, description=description1))
+print(wikipedia.substitute(tool=tool2, description=description2))
+print(wikipedia.substitute(tool=tool3, description=description3))
+
+
+"""
+    Assign the first, second, and third element of tools to the variables our_tool, our_fee and our_pay respectively.
+    Complete the template string using $tool, $fee, and $pay as identifiers. Add the dollar sign before the $fee identifier and add the characters ly directly after the $pay identifier.
+    Substitute identifiers with the three variables you created and print out the results.
+"""
+tools = ['Natural Language Toolkit', '20', 'month']
+
+# Select variables
+our_tool = tools[0]
+our_fee = tools[1]
+our_pay = tools[2]
+
+# Create template
+course = Template("We are offering a 3-month beginner course on $tool just for $$$fee ${pay}ly")
+
+# Substitute identifiers with three variables
+print(course.substitute(tool=our_tool, fee=our_fee, pay=our_pay))
+
+answers = {'answer1': 'I really like the app. But there are some features that can be improved'}
+# Complete the template string using $answer1 and $answer2 as identifiers.
+
+# Complete template string using identifiers
+the_answers = Template("Check your answer 1: $answer1, and your answer 2: $answer2")
+
+# Use the method .substitute() to replace the identifiers with the values in answers in the predefined template.
+
+# Use substitute to replace identifiers
+try:
+    print(the_answers.substitute(answers))
+except KeyError:
+    print("Missing information")
+
+
+# Use the method .safe_substitute() to replace the identifiers with the values in answers in the predefined template.
+
+# Use safe_substitute to replace identifiers
+try:
+    print(the_answers.safe_substitute(answers))
+except KeyError:
+    print("Missing information")
+
+    """
+    .safe_substitute() avoids raising a KeyError because it uses the original placeholder if it is missing and consequently, always returns a usable string
+    """

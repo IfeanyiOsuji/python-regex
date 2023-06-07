@@ -52,6 +52,13 @@ print(sentiment_final)
 ? : 0 or 1 (lazy)
 + : 1 or more (greedy)
 * : 0 or more (greedy)
+^ : start of a sting
+$ : end of a string
+\ : escape character
+| : OR operator
+[]: Set of characters
+[^]: transforms the expression to negative i.e not included
+. : The dot . metacharacter is very useful when we want to match all repetitions of any character. However, we need to be very careful how we use it.
 
 Write a regex to find all the matches of http links appearing in each tweet in sentiment_analysis. Print out the result.
 Write a regex to find all the matches of user mentions appearing in each tweet in sentiment_analysis. Print out the result
@@ -100,3 +107,101 @@ no_hashtag = re.sub(regex, '', sentiment_analysis)
 # Split the text in the no_hashtag variable at every match of one or more consecutive whitespace.
 # Get tokens by splitting text
 print(re.split(r"\s+", no_hashtag))
+
+# Finding files
+"""
+You are not satisfied with your tweets dataset cleaning. There are still extra strings that do not provide any sentiment. Among them are strings that refer to text file names.
+
+You also find a way to detect them:
+
+    They appear at the start of the string.
+    They always start with a sequence of 2 or 3 upper or lowercase vowels (a e i o u).
+    They always finish with the txt ending.
+
+You are not sure if you should remove them directly. So you write a script to find and store them in a separate dataset. 
+
+
+    Write a regex that matches the pattern of the text file names, e.g. aemyfile.txt.
+    Find all matches of the regex in the elements of sentiment_analysis. Print out the result.
+    Replace all matches of the regex with an empty string "". Print out the result.
+
+"""
+sentiment_analysis = ["AIshadowhunters.txt aaaaand back to my literature", "ouMYTAXES.txt I am worried that I won't get my taxes"]
+
+# Write a regex to match text file name
+regex = r"[AEIOUaeiou]{2,3}\w+\.txt"
+
+for text in sentiment_analysis:
+	# Find all matches of the regex
+	print(re.findall(regex, text))
+    
+	# Replace all matches with empty string
+	print(re.sub(regex, '', text))
+
+
+#  VALID EMAILS
+"""
+A colleague has asked for your help! When a user signs up on the company website, they must provide a valid email address.
+The company puts some rules in place to verify that the given email address is valid:
+
+    The first part can contain:
+        Upper A-Z or lowercase letters a-z
+        Numbers
+        Characters: !, #, %, &, *, $, .
+    Must have @
+    Domain:
+        Can contain any word characters
+        But only .com ending is allowed
+
+The project consists of writing a script that checks if the email address follow the correct pattern. Your colleague gave you a list of email addresses as examples to test.
+
+
+
+    Write a regular expression to match valid email addresses as described.
+    Match the regex to the elements contained in emails.
+    To print out the message indicating if it is a valid email or not, complete .format() statement.
+
+"""
+emails = ['n.john.smith@gmail.com', '87victory@hotmail.com', '!#mary-=@msca.net']
+
+# Write a regex to match a valid email address
+regex = r"[0-9A-Za-z!#%&*$.]+@[a-z]+\.com"
+
+for example in emails:
+  	# Match the regex to the string
+    if re.match(regex, example):
+        # Complete the format method to print out the result
+      	print("The email {email_example} is a valid email".format(email_example=example))
+    else:
+      	print("The email {email_example} is invalid".format(email_example=example)) 
+
+
+
+# INVALID PASSWORDS
+"""
+The second part of the website project is to write a script that validates the password entered by the user. The company also puts some rules in order to verify valid passwords:
+
+    It can contain lowercase a-z and uppercase letters A-Z
+    It can contain numbers
+    It can contain the symbols: *, #, $, %, !, &, .
+    It must be at least 8 characters long but not more than 20
+
+Your colleague also gave you a list of passwords as examples to test.
+
+
+    Write a regular expression to check if the passwords are valid according to the description.
+    Search the elements in the passwords list to find out if they are valid passwords.
+    To print out the message indicating if it is a valid password or not, complete .format() statement.
+
+"""
+passwords = ['Apple34!rose', 'My87hou#4$', 'abc123']
+
+regex = r"[0-9a-zA-Z*#$%!&.]{8,20}"
+
+for example in passwords:
+  	# Scan the strings to find a match
+    if re.match(regex, example):
+        # Complete the format method to print out the result
+      	print("The password {pass_example} is a valid password".format(pass_example=example))
+    else:
+      	print("The password {pass_example} is invalid".format(pass_example=example))  

@@ -240,5 +240,100 @@ for tweet in sentiment_analysis:
 		print("No elongated word found") 
 
 
+# LOOKAROUND
+
+# Look around allow us to confirm that sub-pattern is behind or ahead main pattern
+
+# Look ahead
+    #  it is a non capturing group
+    # checks that the first part of the expression is followed or not by the lookahead expression
+    # as a consequence, it will return only the first part of the expression
+    # the lookahead expression can either be positive or negative
+    # for positive we use (?=txt)
+    # for negative we use (?!txt)
+
+# Positive lookahead
+my_text = 'tweets.txt transferred, mypass.txt transferred, keywords.txt error'
+# extracts the words followed by transferred
+print(re.findall(r'\w+\.*?\w+?(?=\stransferred)', my_text))
+
+# Negative lookahead
+
+# extracts the matches that are not followed by transferred
+print(re.findall(r'\w+\.txt(?!\stransferred)', my_text))
+
+# LOOKBEHIND
+        #  non capturing group
+        #  get all the matches that are preceded or not by a specific pattern
+        # as a consequnce, returns pattern after looking behind expression
+        # it can also be positive or negative
+        #  positive = (?<=txt)
+        # negative = (?<!txt)
+
+my_text = 'Member: Angus Young, Member: Chris Slade, Past: Malcom Young, Past: Cliff Williams.'
+
+# Positive lookbehind
+# Find all matches of the name that are preceded by the word Member:
+print(re.findall(r'(?<=Member:\s)\w+\s\w+', my_text))
+
+# Negative lookbehind
+# Find all matches of the name that are not preceded by the word brown
+my_text = 'My white cat sat at the table. However, my brown dog was lying on the couch.'
+print(re.findall(r'(?<!brown\s)(cat|dog)', my_text))
+
+# Surrounding word
+
+"""
+Now, you want to perform some visualizations with your sentiment_analysis dataset. You are interested in the words surrounding python. You want to count how many times a specific word appears right before and after it.
+
+Positive lookahead (?=) makes sure that first part of the expression is followed by the lookahead expression. Positive lookbehind (?<=) returns all matches that are preceded by the specified pattern.
+"""
+sentiment_analysis = 'You need excellent python skills to be a data scientist. Must be! Excellent python'
+
+# Get all the words that are followed by the word python in sentiment_analysis. Print out the word found.
+
+look_ahead = re.findall(r"\w+(?=\spython)", sentiment_analysis)
+
+# Print out
+print(look_ahead)
+
+# Get all the words that are preceded by the word python or Python in sentiment_analysis. Print out the words found.
+look_behind = re.findall(r"(?<=[Pp]ython\s)\w+", sentiment_analysis)
+
+# Print out
+print(look_behind)
+
+
+# Filtering phone numbers
+"""
+Now, you need to write a script for a cell-phone searcher. It should scan a list of phone numbers and return those that meet certain characteristics.
+
+The phone numbers in the list have the structure:
+
+    Optional area code: 3 numbers
+    Prefix: 4 numbers
+    Line number: 6 numbers
+    Optional extension: 2 numbers
+
+E.g. 654-8764-439434-01.
+
+You decide to use .findall() and the non-capturing group's negative lookahead (?!) and negative lookbehind (?<!)
+"""
+
+cellphones = ['4564-646464-01', '345-5785-544245', '6476-579052-01']
+
+# Get all cell phones numbers that are not preceded by the optional area code.
+for phone in cellphones:
+	# Get all phone numbers not preceded by area code
+	number = re.findall(r"(?<!\d{3}-)\d{4}-\d{6}-\d{2}", phone)
+	print(number)
+        
+# Get all the cell phones numbers that are not followed by the optional extension.
+for phone in cellphones:
+	# Get all phone numbers not followed by optional extension
+	number = re.findall(r"\d{3}-\d{4}-\d{6}(?!-\d{2})", phone)
+	print(number)
+
+# Negative lookarounds work in a similar way to positive lookarounds. They are very helpful when we are looking to exclude certain patterns from our analysis
 
 
